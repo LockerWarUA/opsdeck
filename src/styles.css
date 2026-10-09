@@ -1043,6 +1043,8 @@ body.no-select, body.no-select * { user-select: none; -webkit-user-select: none;
 .wsl-btn { font-size: 11px; font-weight: 600; letter-spacing: .02em; width: auto; padding: 0 6px; }
 .theme-row { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
 .theme-row label { flex: 1; min-width: 200px; }
+.theme-preview { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--control-radius); font-family: monospace; font-size: 12px; }
+.theme-preview span + span { margin-left: 4px; }
 .theme-import textarea { width: 100%; font-family: var(--mono, monospace); font-size: 12px; }
 
 /* monitoring board */

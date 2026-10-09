@@ -23,6 +23,12 @@ export const BUILTIN: Theme[] = [
     background: "#282c34", foreground: "#dcdfe4", cursor: "#a3b3cc", selectionBackground: "#474e5d",
     black: "#282c34", red: "#e06c75", green: "#98c379", yellow: "#e5c07b", blue: "#61afef", magenta: "#c678dd", cyan: "#56b6c2", white: "#dcdfe4",
     brightBlack: "#5d677a", brightRed: "#e06c75", brightGreen: "#98c379", brightYellow: "#e5c07b", brightBlue: "#61afef", brightMagenta: "#c678dd", brightCyan: "#56b6c2", brightWhite: "#dcdfe4" } },
+  // the light one of the pair, Windows Terminal's (defaults.json), except the selection: its #383a42,
+  // painted solid by xterm.js, would hide the selected dark text — a light grey instead
+  { name: "One Half Light", colors: {
+    background: "#fafafa", foreground: "#383a42", cursor: "#4f525d", selectionBackground: "#d0d4dc",
+    black: "#383a42", red: "#e45649", green: "#50a14f", yellow: "#c18301", blue: "#0184bc", magenta: "#a626a4", cyan: "#0997b3", white: "#fafafa",
+    brightBlack: "#4f525d", brightRed: "#df6c75", brightGreen: "#98c379", brightYellow: "#e4c07a", brightBlue: "#61afef", brightMagenta: "#c577dd", brightCyan: "#56b5c1", brightWhite: "#ffffff" } },
   { name: "Solarized Dark", colors: {
     background: "#002b36", foreground: "#839496", cursor: "#93a1a1", selectionBackground: "#073642",
     black: "#073642", red: "#dc322f", green: "#859900", yellow: "#b58900", blue: "#268bd2", magenta: "#d33682", cyan: "#2aa198", white: "#eee8d5",

@@ -1016,6 +1016,8 @@
  "Хранилище «{}» создано": "Vault “{}” created",
  "Хранилище недоступно": "Vault unavailable",
  "Цветовая схема": "Colour scheme",
+ "Цветовая схема терминала": "Terminal colour scheme",
+ "Меняет цвета терминалов (и вкладок SSH, AI-панели), а не всего окна — интерфейс остаётся тёмным. Применяется сразу, «Сохранить» не нужно.": "Changes the colours of the terminals (SSH tabs and the AI panel too), not of the whole window — the interface stays dark. Applies at once, no need to Save.",
  "Часовой пояс": "Time zone",
  "Чем открывать": "Open with",
  "Через неделю": "In a week",

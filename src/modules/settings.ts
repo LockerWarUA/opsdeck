@@ -8,7 +8,7 @@ import { hlPrefs, setHlPrefs } from "./highlight";
 import { setTermFontSize, termFontSize, setTermFontFamily, termFontFamily, TERM_FONTS, fontInstalled } from "./pty";
 import { setSuggestEnabled, suggestEnabled } from "./suggest";
 import { AI_PROVIDERS, aiAgent, setAiAgent } from "./ai-agents";
-import { addThemes, allThemes, currentThemeName, isWindows, parseSchemes, setTheme } from "./themes";
+import { addThemes, allThemes, currentTheme, currentThemeName, isWindows, parseSchemes, setTheme } from "./themes";
 import { listen } from "@tauri-apps/api/event";
 import { cleanPath } from "./paths";
 
@@ -163,8 +163,10 @@ export function mountSettings(root: HTMLElement) {
           <label>Шрифт терминала <select class="term-font-family"></select></label>
           <label class="term-font-custom-row" hidden>Название шрифта <input class="term-font-custom" maxlength="128" spellcheck="false" placeholder="например, Iosevka" data-no-i18n /></label>
           <p class="muted hint term-font-warn" hidden></p>
-          <div class="theme-row"><label>Цветовая схема <select class="term-theme"></select></label>
+          <div class="theme-row"><label>Цветовая схема терминала <select class="term-theme"></select></label>
             <button type="button" class="ghost" data-theme-import>Импорт JSON…</button></div>
+          <div class="theme-preview" aria-hidden="true"></div>
+          <p class="muted hint">Меняет цвета терминалов (и вкладок SSH, AI-панели), а не всего окна — интерфейс остаётся тёмным. Применяется сразу, «Сохранить» не нужно.</p>
           <div class="theme-import" hidden>
             <textarea class="theme-json" rows="6" spellcheck="false" data-no-i18n placeholder='{"name": "My scheme", "background": "#101010", "foreground": "#e0e0e0", "red": "#ff5555", …}'></textarea>
             <div class="row"><button type="button" class="primary" data-theme-add>Добавить схемы</button><button type="button" class="ghost" data-theme-cancel>Отмена</button></div>
@@ -569,6 +571,17 @@ export function mountSettings(root: HTMLElement) {
     if (themeSel.selectedIndex < 0) themeSel.selectedIndex = 0;
   };
   fillThemes();
+  // a sample of the scheme right here: the terminal it colours is not on this screen
+  const themePreview = root.querySelector<HTMLElement>(".theme-preview")!;
+  const showPreview = () => {
+    const c = currentTheme();
+    themePreview.style.background = c.background ?? "";
+    themePreview.style.color = c.foreground ?? "";
+    themePreview.innerHTML = `<span>user@host:~$ ls</span> ` +
+      (["red", "green", "yellow", "blue", "magenta", "cyan"] as const).map((k) => `<span style="color:${esc(c[k] ?? "")}">■</span>`).join("");
+  };
+  showPreview();
+  window.addEventListener("term-theme", showPreview);
   themeSel.addEventListener("change", () => setTheme(themeSel.value));
   const importThemes = (text: string) => {
     try {

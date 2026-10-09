@@ -24,6 +24,17 @@ test.describe("terminal colour schemes (all systems)", () => {
     expect(await page.evaluate(() => localStorage.getItem("opsdeck.term.theme"))).toBe("Dracula");
   });
 
+  test("a light scheme: its sample is in the settings, and the terminal follows", async ({ app, page }) => {
+    await app.view("settings");
+    const sample = page.locator(".theme-preview");
+    await expect(sample).toHaveCSS("background-color", "rgb(15, 17, 23)");
+    await page.selectOption(".term-theme", "One Half Light");
+    await expect(sample).toHaveCSS("background-color", "rgb(250, 250, 250)");
+    await expect(sample).toHaveCSS("color", "rgb(56, 58, 66)");
+    await app.view("terminal");
+    await expect.poll(() => bg(page)).toBe("rgb(250, 250, 250)");
+  });
+
   test("own JSON scheme can be imported", async ({ app, page }) => {
     await app.view("settings");
     await page.click("[data-theme-import]");
@@ -37,12 +48,13 @@ test.describe("terminal colour schemes (all systems)", () => {
 
   test("broken JSON is reported, nothing is added", async ({ app, page }) => {
     await app.view("settings");
+    const schemes = await page.locator(".term-theme option").count();
     await page.click("[data-theme-import]");
     await page.fill(".theme-json", "{oops");
     await page.click("[data-theme-add]");
     await expect(page.locator(".toast").last()).toContainText("не JSON");
     await expect(page.locator(".theme-import")).toBeVisible();
-    await expect(page.locator(".term-theme option")).toHaveCount(5);
+    await expect(page.locator(".term-theme option")).toHaveCount(schemes);
   });
 
   test("Linux/macOS: no Windows block and no WSL button", async ({ app, page }) => {
